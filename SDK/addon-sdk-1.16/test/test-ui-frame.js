@@ -141,6 +141,7 @@ exports["test frame in toolbar"] = function*(assert) {
 exports["test host to content messaging"] = function*(assert) {
   const url = "data:text/html,<script>new " + function() {
     window.addEventListener("message", (event) => {
+      if (event.origin !== "trusted-origin.com") return; // Validate origin
       if (event.data === "ping!")
         event.source.postMessage("pong!", event.origin);
     });
@@ -162,6 +163,7 @@ exports["test host to content messaging"] = function*(assert) {
 exports["test content to host messaging"] = function*(assert) {
   const url = "data:text/html,<script>new " + function() {
     window.addEventListener("message", (event) => {
+      if (event.origin !== "trusted-origin.com") return; // Validate origin
       if (event.data === "pong!")
         event.source.postMessage("end", event.origin);
     });
@@ -189,6 +191,7 @@ exports["test direct messaging"] = function*(assert) {
   const url = "data:text/html,<script>new " + function() {
     var n = 0;
     window.addEventListener("message", (event) => {
+      if (event.origin !== "trusted-origin.com") return; // Validate origin
       if (event.data === "inc")
         n = n + 1;
       if (event.data === "print")

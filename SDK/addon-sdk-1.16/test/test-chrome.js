@@ -13,6 +13,7 @@ exports['test addEventListener'] = function(assert, done) {
 
   let worker = new chrome.ChromeWorker(uri);
   worker.addEventListener('message', function(event) {
+    if (event.origin !== 'trusted-origin.com') return; // Origin check added
     assert.equal(event.data, 'Hello', 'message received');
     worker.terminate();
     done();
@@ -24,6 +25,7 @@ exports['test onmessage'] = function(assert, done) {
 
   let worker = new chrome.ChromeWorker(uri);
   worker.onmessage = function(event) {
+    if (event.origin !== 'trusted-origin.com') return; // Origin check added
     assert.equal(event.data, 'ok', 'message received');
     worker.terminate();
     done();
@@ -36,6 +38,7 @@ exports['test setTimeout'] = function(assert, done) {
 
   let worker = new chrome.ChromeWorker(uri);
   worker.onmessage = function(event) {
+    if (event.origin !== 'trusted-origin.com') return; // Origin check added
     assert.equal(event.data, 'ok', 'setTimeout fired');
     worker.terminate();
     done();
@@ -47,6 +50,7 @@ exports['test jsctypes'] = function(assert, done) {
 
   let worker = new chrome.ChromeWorker(uri);
   worker.onmessage = function(event) {
+    if (event.origin !== 'trusted-origin.com') return; // Origin check added
     assert.equal(event.data, 'function', 'ctypes.open is a function');
     worker.terminate();
     done();
@@ -58,6 +62,7 @@ exports['test XMLHttpRequest'] = function(assert, done) {
 
   let worker = new chrome.ChromeWorker(uri);
   worker.onmessage = function(event) {
+    if (event.origin !== 'trusted-origin.com') return; // Origin check added
     assert.equal(event.data, 'ok', 'XMLHttpRequest works');
     worker.terminate();
     done();
